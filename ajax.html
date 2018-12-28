@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="test.css">
+    <script src="js/common_2015.js"></script>
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script>
+        function test() {
+            let b_i = false;
+            if (b_i == true) {
+                return;
+            }
+            var t_url, t_mcc, t_type, t_a, t_b, t_c, t_hex;
+            var i_a, i_b, i_c;
+            var map_id = 1;
+            t_mcc = "460";
+            t_type = "";
+            t_a = "00";
+            t_b = "34860";
+            t_c = "62041";
+            t_hex = "10";
+            if (t_mcc == "" || t_a == "" || t_b == "" || t_c == "") {
+                showMsgs("fcr", "参数不能为空");
+                return;
+            }
+            if (isTest("^[0-9]{3}$", t_mcc) == false) {
+                showMsgs("fcr", "MCC 不正确");
+                return;
+            }
+            if (t_type == "cdma") {
+                if (isTest("^[0-9]{1,5}$", t_a) == false && isTest("^[0-9a-fA-F]{1,4}$", t_a) == false) {
+                    showMsgs("fcr", "SID 输入错误");
+                    return;
+                }
+                if (isTest("^[0-9]{1,5}$", t_b) == false && isTest("^[0-9a-fA-F]{1,4}$", t_b) == false) {
+                    showMsgs("fcr", "NID 输入错误");
+                    return;
+                }
+                if (isTest("^[0-9]{1,5}$", t_c) == false && isTest("^[0-9a-fA-F]{1,4}$", t_c) == false) {
+                    showMsgs("fcr", "BID 输入错误");
+                    return;
+                }
+            } else {
+                if (t_mcc == "460" && isTest("^(00|0|01|1|11)$", t_a) == false) {
+                    showMsgs("fcr", "MNC 不存在");
+                    return;
+                }
+                if (isTest("^[0-9]{1,5}$", t_b) == false && isTest("^[0-9a-fA-F]{1,4}$", t_b) == false) {
+                    showMsgs("fcr", "LAC / TAC 输入错误");
+                    return;
+                }
+                if (isTest("^[0-9]{1,9}$", t_c) == false && isTest("^[0-9a-fA-F]{1,7}$", t_c) == false) {
+                    showMsgs("fcr", "CI 输入错误");
+                    return;
+                }
+            }
+            i_b = parseInt(t_b, t_hex);
+            i_c = parseInt(t_c, t_hex);
+            if (t_type == "cdma") {
+                i_a = parseInt(t_a, t_hex);
+                if (i_a < 0 || i_a > 32767) {
+                    showMsgs("fcr", "SID 或进制类型不正确");
+                    return;
+                }
+                if (i_b < 0 || i_b > 65535) {
+                    showMsgs("fcr", "NID 或进制类型不正确");
+                    return;
+                }
+                if (i_c < 0 || i_c > 65535) {
+                    showMsgs("fcr", "BID 或进制类型不正确");
+                    return;
+                }
+            } else {
+                if (i_b < 1 || i_b > 65535) {
+                    showMsgs("fcr", "LAC / TAC 或进制类型不正确");
+                    return;
+                }
+                if (i_c < 1 || i_c > 268435455) {
+                    showMsgs("fcr", "CI 或进制类型不正确");
+                    return;
+                }
+            }
+            b_i = true;
+            // showMsgs("fcg", "<img src=\"//cdn.gpsspg.com/img/loadings.gif\" /><br />正在查询中...");
+            t_url = "&bs=" + t_mcc + "," + t_a + "," + t_b + "," + t_c + "&hex=" + t_hex + "&type=" + t_type + "&to=" + map_id + "&output=jsonp";
+            t_url = t_url.replace(/\s+/g, "");
+            q_bsid = t_mcc + "-" + t_a + "-" + t_b + "-" + t_c;
+            $.ajax({
+                type: "get",
+                async: true,
+                url: "http://api.gpsspg.com/bss/?oid=159" + t_url,
+                dataType: "jsonp",
+                success: function(results) {
+                    o_r = results;
+                    showAjaxOK();
+                },
+                error: function() {
+                    q_bsid = "";
+                    showAjaxError();
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <button id="test">点击</button>
+    <script>
+        console.log($);
+        $(function() {
+            $('#test').on('click', function(e) {
+                console.log(123);
+                test();
+            });
+        });
+    </script>
+</body>
+
+</html>

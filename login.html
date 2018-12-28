@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="login_view">
+        <form (ngSubmit)="gotoMap()">
+            <div class="login_bg">
+                <h1>
+                    <img src="./assets/images/title.png" alt="伊士通logo">
+                </h1>
+                <div class="login_form">
+                    <ul>
+                        <li>
+                            <div>
+                                <span>账号：</span>
+                                <input type="text" name="lusername" placeholder="请在此输入账号" autocomplete="off" [(ngModel)]='lInfo.username'>
+                            </div>
+                        </li>
+                        <li>
+
+                            <div>
+                                <span>密码：</span>
+                                <input type="password" name="lpassword" placeholder="请在此输入密码" autocomplete="new-password" [(ngModel)]='lInfo.password'>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="remember" [ngClass]="isRemember()" (click)="rememberClick($event)"></span>
+                            <span>记住密码</span>
+                        </li>
+                    </ul>
+                    <button class="btn btn-default" type="submit">登入</button>
+                </div>
+            </div>
+        </form>
+        <div class="login_register">
+            <a class="btn btn-sm btn-white" (click)="registerClick();">塑料厂注册</a>
+        </div>
+    </div>
+    <div class="modal in" *ngIf="isShow">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form #myForm="ngForm">
+                    <div class="modal-header">
+                        <h4 class="modal-title pull-left">塑料厂注册</h4>
+                        <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label class="form-control-label text-right col-sm-3" for="clientCode"><i>*</i>工厂：</label>
+                            <div class="col-sm-6">
+                                <input id="factory" required [(ngModel)]="rInfo.factory" name="factory" type="text" class="form-control" placeholder="工厂名称" #factory="ngModel">
+                            </div>
+                            <label *ngIf="factory.invalid&&(factory.dirty || factory.touched)" class="form-control-label col-sm-3 text-red pl-0">
+                                工厂不能为空!
+                             </label>
+                        </div>
+                        <div class="form-group row">
+                            <label class="form-control-label text-right col-sm-3" for="clientCode"><i>*</i>用户名：</label>
+                            <div class="col-sm-6">
+                                <input id="username" required [(ngModel)]="rInfo.username" name="username" type="text" class="form-control" placeholder="登录用户名" #username="ngModel" (blur)="checkUserName(username.value)">
+                            </div>
+                            <label *ngIf="username.invalid&&(username.dirty || username.touched)" class="form-control-label col-sm-3 text-red pl-0">
+                                    用户名不能为空!
+                            </label>
+                            <label *ngIf="isUserNameRepeat" class="form-control-label col-sm-3 text-red pl-0">
+                                    用户名已存在!
+                            </label>
+                        </div>
+                        <div class="form-group row">
+                            <label class="form-control-label text-right col-sm-3" for="clientCode"><i>*</i>密码：</label>
+                            <div class="col-sm-6">
+                                <input id="password" required [(ngModel)]="rInfo.password" name="password" type="password" class="form-control" placeholder="密码" #password="ngModel">
+                            </div>
+                            <label *ngIf="password.invalid&&(password.dirty || password.touched)" class="form-control-label col-sm-3 text-red pl-0">
+                                    密码为空!
+                             </label>
+                        </div>
+                        <div class="form-group row">
+                            <label class="form-control-label text-right col-sm-3" for="clientCode"><i>*</i>确认密码：</label>
+                            <div class="col-sm-6">
+                                <input id="password1" required [(ngModel)]="rInfo.passwordRe" name="passwordRe" type="password" class="form-control" placeholder="确认密码" #passwordRe="ngModel">
+                            </div>
+                            <label *ngIf="passwordRe.invalid&&(passwordRe.dirty || passwordRe.touched)" class="form-control-label col-sm-3 text-red pl-0">
+                                    确认密码不能为空!
+                             </label>
+                            <label *ngIf="password.value!=passwordRe.value&&passwordRe.value" class="form-control-label col-sm-3 text-red pl-0">
+                                    两次输入密码不一致!
+                             </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn" value="重置" (click)="reset()">
+                        <input type="button" class="btn btn-primary" value="注册" [disabled]="!(myForm.valid&&password.value==passwordRe.value) || isUserNameRepeat" (click)="register()">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

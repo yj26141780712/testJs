@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>无标题文档</title>
+    <style>
+        .scrollContainer {
+            width: 50%;
+            height: 30px;
+            line-height: 30px;
+            margin-top: 10px;
+            overflow: hidden;
+            border: 1px solid grey;
+        }
+        
+        @-webkit-keyframes scroll {
+            from {
+                margin-left: 100%;
+            }
+        }
+        
+        @-moz-keyframes scroll {
+            from {
+                margin-left: 100%;
+            }
+        }
+        
+        @-ms-keyframes scroll {
+            from {
+                margin-left: 100%;
+            }
+        }
+        
+        .scroll {
+            height: 30px;
+            overflow: hidden;
+            -webkit-animation-name: scroll;
+            -webkit-animation-delay: 1000ms;
+            -webkit-animation-duration: 1s;
+            -webkit-animation-timing-function: linear;
+            -webkit-animation-iteration-count: infinite;
+            -moz-animation-name: scroll;
+            -moz-animation-delay: 1000ms;
+            -moz-animation-duration: 5s;
+            -moz-animation-timing-function: linear;
+            -moz-animation-iteration-count: infinite;
+            -ms-animation-name: scroll;
+            -ms-animation-delay: 1000ms;
+            -ms-animation-duration: 5s;
+            -ms-animation-timing-function: linear;
+            -ms-animation-iteration-count: infinite;
+            animation-name: scroll;
+            animation-duration: 5s;
+            animation-delay: 1000ms;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+        
+        .contentItem {
+            height: 30px;
+            line-height: 30px;
+            float: left;
+            width: auto;
+            padding-right: 20px;
+            box-sizing: border-box;
+            font-size: 18px;
+            overflow: hidden;
+        }
+        
+        .scrollBox:hover {
+            -webkit-animation-play-state: paused;
+        }
+    </style>
+    <script src="jquery-1.11.3.min.js"></script>
+</head>
+
+<body>
+    <div class="scrollContainer">
+        <div class="scrollBox" id="content"></div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var newarry = ["博客园", "我的博客园", "我们的博客园", "博客园的内容很丰富", "写博客需要坚持"]
+            $("#content").empty();
+            var sum = 0;
+            for (var i = 0; i < newarry.length; i++) {
+                var alarm = newarry[i]
+                var divStr = "<a class='contentItem' href=''>" + alarm + "</a>";
+                $("#content").append(divStr)
+                var boxWidth = $(".contentItem").eq(i).width() + 22;
+                sum += boxWidth;
+                if (i > 0) {
+                    $(".scrollBox").css({
+                        "animation-duration": 5 + 5 * i + "s"
+                    }, {
+                        "-moz-animation-duration": 5 + 5 * i + "s"
+                    }, {
+                        "-webkit-animation-duration": 5 + 5 * i + "s"
+                    });
+                };
+            };
+            $(".scrollBox").width(sum);
+            var width = $(".scrollBox").width();
+            $(".scrollBox").css({
+                "marginLeft": -width
+            });
+            $(".scrollBox").addClass("scroll");
+        });
+    </script>
+</body>
+
+</html>

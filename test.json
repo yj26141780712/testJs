@@ -1,0 +1,26 @@
+{
+    "code": 200,
+    "message": "ok",
+    "obj": [{
+        "username": "用户名",
+        "password": "密码",
+        "name": "姓名",
+        "phone": "手机",
+        "email": "邮箱",
+        "empNo": "工号",
+        "roles": [{
+            "id": 1,
+            "realName": "管理员"
+        }, {
+            "id": 2,
+            "realName": "超级管理"
+        }],
+        "groups": [{
+            "id": 1,
+            "groupName": "用户组1"
+        }, {
+            "id": 2,
+            "groupName": "用户组2"
+        }]
+    }]
+}

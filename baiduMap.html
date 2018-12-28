@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>注塑机物联管理系统 - 大屏地图</title>
+
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+
+    <!-- page specific plugin styles -->
+    <!-- text fonts -->
+    <link rel="stylesheet" href="../assets/css/ace-fonts.css" />
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="../assets/css/ace.min.css" id="main-ace-style" />
+
+    <!--[if lte IE 9]>
+			<link rel="stylesheet" href="../assets/css/ace-part2.min.css" />
+		<![endif]-->
+    <link rel="stylesheet" href="../assets/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="../assets/css/ace-rtl.min.css" />
+
+    <!--[if lte IE 9]>
+		  <link rel="stylesheet" href="../assets/css/ace-ie.min.css" />
+		<![endif]-->
+
+    <!-- inline styles related to this page -->
+
+    <!-- ace settings handler -->
+    <script src="../assets/js/ace-extra.min.js"></script>
+
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+    <!--[if lte IE 8]>
+		<script src="../assets/js/html5shiv.min.js"></script>
+		<script src="../assets/js/respond.min.js"></script>
+		<![endif]-->
+
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=6gtus8jcuH5B6ef9r6yiqfmi"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
+    <script src="../assets/js/map/MarkerClusterer.js"></script>
+    <script src="../assets/js/map/TextIconOverlay.js"></script>
+
+    <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
+
+    <style type="text/css">
+        @font-face {
+            font-family: "Hiragino Sans GB";
+            src: url(../assets/fonts/Hiragino Sans GB W3.ttf) format("truetype");
+            src: url(../assets/fonts/Hiragino Sans GB W3.otf) format("embedded-opentype");
+        }
+        
+        .dl-horizontal dt {
+            width: 50px;
+        }
+        
+        .dl-horizontal dd {
+            margin-left: 55px;
+        }
+        
+        #sidebar-wrapper {
+            -moz-transition: all 0.5s ease;
+            -o-transition: all 0.5s ease;
+            -webkit-transition: all 0.5s ease;
+            background-color: #f3f3f3;
+            height: 100%;
+            width: 100%;
+            transition: all 0.5s ease;
+            z-index: 1000;
+        }
+        /* 弹框圆角相关 */
+        
+        .anchorBL {
+            display: none;
+        }
+        
+        .BMap_bubble_title {
+            color: black;
+            font-size: 13px;
+            font-weight: bold;
+            text-align: left;
+        }
+        
+        .BMap_pop div:nth-child(1) {
+            border-radius: 7px 0 0 0;
+        }
+        
+        .BMap_pop div:nth-child(3) {
+            border-radius: 0 7px 0 0;
+            background: #ABABAB;
+            ;
+            /*background: #ABABAB;*/
+            width: 23px;
+            width: 0px;
+            height;
+            0px;
+        }
+        
+        .BMap_pop div:nth-child(3) div {
+            border-radius: 7px;
+        }
+        
+        .BMap_pop div:nth-child(5) {
+            border-radius: 0 0 0 7px;
+        }
+        
+        .BMap_pop div:nth-child(5) div {
+            border-radius: 7px;
+        }
+        
+        .BMap_pop div:nth-child(7) {
+            border-radius: 0 0 7px 0;
+        }
+        
+        .BMap_pop div:nth-child div(7) {
+            border-radius: 7px;
+        }
+        
+        .btn-info {
+            background-color: #0181ca !important;
+            border-color: #0181ca;
+        }
+        
+        .btn-defult {
+            background-color: #dedede !important;
+            border-color: #dedede;
+            color: #383939 !important;
+            text-shadow: none !important;
+        }
+        
+        .widget-header {
+            background: #e2e2e2;
+        }
+    </style>
+
+    <link href="../assets/css/showLoading.css" rel="stylesheet" media="screen" />
+
+</head>
+
+<body class="no-skin" style="overflow:hidden;">
+    <!-- #section:basics/navbar.layout -->
+
+
+    <!-- #section:basics/navbar.layout -->
+    <div id="navbar" class="navbar navbar-default">
+        <script type="text/javascript">
+            try {
+                ace.settings.check('navbar', 'fixed')
+            } catch (e) {}
+        </script>
+
+        <div class="navbar-container" id="navbar-container">
+            <!-- #section:basics/sidebar.mobile.toggle -->
+            <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler">
+            <span class="sr-only">Toggle sidebar</span>
+
+            <span class="icon-bar"></span>
+
+            <span class="icon-bar"></span>
+
+            <span class="icon-bar"></span>
+        </button>
+
+            <!-- /section:basics/sidebar.mobile.toggle -->
+            <div class="navbar-header pull-left">
+                <!-- #section:basics/navbar.layout.brand -->
+                <img src="../assets/img/logo.png" style="height:40px;" class="pull-left">
+                <a href="#" class="navbar-brand" style="margin-left:-15px;">
+                    <small>
+                    注塑机物联管理系统
+                </small>
+                </a>
+            </div>
+
+            <!-- #section:basics/navbar.dropdown -->
+            <div class="navbar-buttons navbar-header pull-right" role="navigation">
+                <ul class="nav ace-nav">
+                    <li class="blue" id="li_date">
+                        <a href="#" style="width:173px;">
+                            <i class="ace-icon fa fa-calendar"></i>
+                            <span id="h_date"></span>
+                        </a>
+                    </li>
+                    <li class="blue hide" id="li_tianqi">
+                        <a href="#">
+                            <img id="img_weather" style="width:40px;height:40px;" src="../assets/images/weather/99.png" />
+                            <span id="span_weather">未知</span>
+                        </a>
+                    </li>
+                    <li class="purple">
+                        <!--<a data-toggle="dropdown" class="dropdown-toggle" href="../alarm/alarmManagement">-->
+                        <a href="../alarm/alarmManagement">
+                            <i id="i_alarm" class="ace-icon fa fa-bell"></i>
+                            <span id="span_alarm" class="badge badge-important"></span>
+                        </a>
+                        <!--
+                    <ul style="width:330px;" id="ul_alarm" class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+                        <li class="dropdown-header">
+                            <i class="ace-icon fa fa-exclamation-triangle"></i>
+                            <span id="span_alarm2">无</span> 报警信息
+                        </li>
+                    </ul>
+                    -->
+                    </li>
+
+                    <!-- #section:basics/navbar.user_menu -->
+                    <li class="light-blue">
+                        <a data-toggle="dropdown" style="width:115px;" href="#" class="dropdown-toggle">
+                            <span>
+                                                                  欢迎,admin
+                        </span>
+                            <i class="ace-icon fa fa-caret-down"></i>
+                        </a>
+
+                        <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                            <li>
+                                <a href="#form_changePassword" data-toggle="modal" onclick="changePassword()">
+                                    <i class="ace-icon fa fa-key"></i> 更改密码
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../sys/profileManagement.action">
+                                    <i class="ace-icon fa fa-user"></i> 个人中心
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+
+                            <li>
+                                <a href="../exit.action">
+                                    <i class="ace-icon fa fa-power-off"></i> 退出
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- /section:basics/navbar.user_menu -->
+                </ul>
+            </div>
+
+            <div id="form_changePassword" class="modal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="blue bigger">密码更改</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal" user="form" id="changePasswordForm" action="" method="post">
+                                <input type="hidden" id="changePasswordUserId" name="editUser.id" value="1" />
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-1">原密码：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="oldPassword" class="col-xs-10 col-sm-5" placeholder="原密码" name="editUser.oldpassword" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-1">新密码：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="newPassword" class="col-xs-10 col-sm-5" placeholder="新密码" name="editUser.password" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-1">确认密码：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="newPassword2" class="col-xs-10 col-sm-5" placeholder="确认密码" name="editUser.password2" />
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <input id="editFormSubmitButton" type="button" class="btn btn-sm btn-primary" value="确定" onclick="submitPassword()" />
+                                    <input type="button" class="btn btn-sm" data-dismiss="modal" value="取消" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /section:basics/navbar.dropdown -->
+        </div>
+        <!-- /.navbar-container -->
+
+        <!-- basic scripts -->
+
+        <!--[if !IE]> -->
+        <script type="text/javascript">
+            window.jQuery || document.write("<script src='../assets/js/jquery.min.js'>" + "<" + "/script>");
+        </script>
+
+        <!-- <![endif]-->
+
+        <!--[if IE]>
+        <script type="text/javascript">
+         window.jQuery || document.write("<script src='../assets/js/jquery1x.min.js'>"+"<"+"/script>");
+        </script>
+        <![endif]-->
+        <script type="text/javascript">
+            if ('ontouchstart' in document.documentElement) document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+        </script>
+
+        <script language="javascript">
+            $(document).ready(function() {
+                getDate();
+                //getWeather();
+            });
+            $('<audio id="chatAudio"><source src="../assets/sound/alarm.wav"></audio>').appendTo('body');
+
+            function changePassword() {
+                $("#changePasswordForm")[0].reset();
+            }
+
+            function submitPassword() {
+                var password = $("#newPassword").val();
+                var password2 = $("#newPassword2").val();
+                if (password != password2) {
+                    alert("新密码两次不一致");
+                    return;
+                }
+                $('#form_changePassword').modal('hide')
+                $.post(
+                    "../doc/changePassword.action", {
+                        userId: $("#changePasswordUserId").val(),
+                        oldPassword: $("#oldPassword").val(),
+                        password: password
+                    },
+                    function(json) {
+                        if (json.code == 200) {
+                            alert("密码更改成功！");
+                        } else {
+                            alert(json.message);
+                        }
+                    }
+                );
+            }
+
+            function getWeather() {
+                $.post("../sys/getWeather", {}, function(json) {
+                    $("#img_weather").attr("src", "../assets/images/weather/" + json.wcode + ".png");
+                    $("#span_weather").html(json.wtext + " " + json.wtemperature + "℃");
+                    $("#li_tianqi").attr("class", "blue");
+                }, "json");
+            }
+
+            function getDate() {
+
+                var now = new Date();
+                var year = now.getFullYear();
+                var month = Number(now.getMonth()) + 1;
+                var day = now.getDate();
+                var weekn = Number(now.getDay());
+                var week = "";
+                switch (weekn) {
+                    case 0:
+                        week = "星期日";
+                    case 1:
+                        week = "星期一";
+                        break;
+                    case 2:
+                        week = "星期二";
+                        break;
+                    case 3:
+                        week = "星期三";
+                        break;
+                    case 4:
+                        week = "星期四";
+                        break;
+                    case 5:
+                        week = "星期五";
+                        break;
+                    case 6:
+                        week = "星期六";
+                        break;
+                }
+                var nowDate = year + "年" + month + "月" + day + "日 " + week;
+                $("#h_date").html(nowDate);
+            }
+        </script>
+    </div>
+
+    <!-- /section:basics/navbar.layout -->
+    <div class="main-container" id="main-container" style="height:100%;">
+        <script type="text/javascript">
+            try {
+                ace.settings.check('main-container', 'fixed')
+            } catch (e) {}
+        </script>
+
+
+
+
+        <!-- #section:basics/sidebar -->
+        <div id="sidebar" class="sidebar responsive">
+            <script type="text/javascript">
+                try {
+                    ace.settings.check('sidebar', 'fixed')
+                } catch (e) {}
+            </script>
+
+            <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+                <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+                    <a class="btn btn-success" href="../main/navList.action" title="注塑机图表">
+                        <i class="ace-icon fa fa-desktop"></i>
+                    </a>
+
+                    <a class="btn btn-info" href="../screen/main.action" title="电子地图">
+                        <i class="ace-icon fa fa-map"></i>
+                    </a>
+
+                    <!-- #section:basics/sidebar.layout.shortcuts -->
+                    <a class="btn btn-warning" href="#" title="成品数据">
+                        <i class="ace-icon fa fa-product-hunt"></i>
+                    </a>
+
+                    <a class="btn btn-danger" href="../main/navParam.action" title="机器参数">
+                        <i class="ace-icon fa fa-cogs"></i>
+                    </a>
+
+                    <!-- /section:basics/sidebar.layout.shortcuts -->
+                </div>
+
+                <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+                    <span class="btn btn-success"></span>
+
+                    <span class="btn btn-info"></span>
+
+                    <span class="btn btn-warning"></span>
+
+                    <span class="btn btn-danger"></span>
+                </div>
+            </div>
+            <!-- /.sidebar-shortcuts -->
+
+            <ul class="nav nav-list">
+
+                <li class="
+				
+				
+				   
+				  
+				   
+					
+						active open
+					
+				   
+					
+				 
+			">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-desktop"></i>
+                        <span class="menu-text">大屏幕</span>
+
+                        <b class="arrow fa fa-angle-down"></b>
+
+                    </a>
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+
+                        <li class="
+							
+								active
+							
+						">
+                            <a href="../screen/main.action">
+                                <i class="menu-icon fa fa-caret-right"></i> 实时地图
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../screen/device.action">
+                                <i class="menu-icon fa fa-caret-right"></i> 实时数据
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="
+				
+				
+				   
+				  
+				   
+					
+				   
+					
+				   
+					
+				 
+			">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-desktop"></i>
+                        <span class="menu-text">监控管理</span>
+
+                        <b class="arrow fa fa-angle-down"></b>
+
+                    </a>
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+
+                        <li class="
+							
+						">
+                            <a href="../main/navList.action">
+                                <i class="menu-icon fa fa-caret-right"></i> 机器图表
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../main/navTable.action">
+                                <i class="menu-icon fa fa-caret-right"></i> 机器列表
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="
+				
+				
+				   
+				  
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				 
+			">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-cloud"></i>
+                        <span class="menu-text">远程详情</span>
+
+                        <b class="arrow fa fa-angle-down"></b>
+
+                    </a>
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+
+                        <li class="
+							
+						">
+                            <a href="../mainPassword/navCheck.action">
+                                <i class="menu-icon fa fa-caret-right"></i> 通信诊断
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../mainPassword/navShutdown.action">
+                                <i class="menu-icon fa fa-caret-right"></i> 停机解码
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../mainPassword/navParam.action">
+                                <i class="menu-icon fa fa-caret-right"></i> 参数信息
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../mainPassword/navData.action">
+                                <i class="menu-icon fa fa-caret-right"></i> 生产数据
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../mainPassword/navTemp.action">
+                                <i class="menu-icon fa fa-caret-right"></i> 实时温度
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../mainPassword/navOil.action">
+                                <i class="menu-icon fa fa-caret-right"></i> 润滑信息
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="
+				
+				
+				   
+				  
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				 
+			">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-info-circle"></i>
+                        <span class="menu-text">设备维护</span>
+
+                        <b class="arrow fa fa-angle-down"></b>
+
+                    </a>
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+
+                        <li class="
+							
+						">
+                            <a href="../device/alarmManagement">
+                                <i class="menu-icon fa fa-caret-right"></i> 设备报警
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="
+				
+				
+				   
+				  
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				 
+			">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-bar-chart-o"></i>
+                        <span class="menu-text">统计报表</span>
+
+                        <b class="arrow fa fa-angle-down"></b>
+
+                    </a>
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+
+                        <li class="
+							
+						">
+                            <a href="../stats/alarms.action">
+                                <i class="menu-icon fa fa-caret-right"></i> 异常统计
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../stats/useRate.action">
+                                <i class="menu-icon fa fa-caret-right"></i> 使用率（图）
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../stats/stateTime">
+                                <i class="menu-icon fa fa-caret-right"></i> 机器状态（表）
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../stats/stateChart.action">
+                                <i class="menu-icon fa fa-caret-right"></i> 区域状态（图）
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="
+				
+				
+				   
+				  
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				 
+			">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-file-o"></i>
+                        <span class="menu-text">档案管理</span>
+
+                        <b class="arrow fa fa-angle-down"></b>
+
+                    </a>
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+
+                        <li class="
+							
+						">
+                            <a href="../doc/deviceManagement">
+                                <i class="menu-icon fa fa-caret-right"></i> 注塑机管理
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../doc/navdeviceset.action">
+                                <i class="menu-icon fa fa-caret-right"></i> 盒子升级
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../doc/modelManagement">
+                                <i class="menu-icon fa fa-caret-right"></i> 机型管理
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../doc/paramManagement">
+                                <i class="menu-icon fa fa-caret-right"></i> 参数
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../doc/importManagement">
+                                <i class="menu-icon fa fa-caret-right"></i> 参数导入
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../sys/companyManagement.action">
+                                <i class="menu-icon fa fa-caret-right"></i> 公司管理
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../doc/areaManagement">
+                                <i class="menu-icon fa fa-caret-right"></i> 片区管理
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../doc/userManagement">
+                                <i class="menu-icon fa fa-caret-right"></i> 员工管理
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../log/userlog">
+                                <i class="menu-icon fa fa-caret-right"></i> 操作日志
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="
+				
+				
+				   
+				  
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				 
+			">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-cogs"></i>
+                        <span class="menu-text">系统管理</span>
+
+                        <b class="arrow fa fa-angle-down"></b>
+
+                    </a>
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+
+                        <li class="
+							
+						">
+                            <a href="../sys/roleManagement.action">
+                                <i class="menu-icon fa fa-caret-right"></i> 角色管理
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../sys/pageManagement.action">
+                                <i class="menu-icon fa fa-caret-right"></i> 页面管理
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../sys/itemManagement.action">
+                                <i class="menu-icon fa fa-caret-right"></i> 分项管理
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../sys/navupload.action">
+                                <i class="menu-icon fa fa-caret-right"></i> 升级包上传
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../sys/navsystem_settings">
+                                <i class="menu-icon fa fa-caret-right"></i> 系统设置
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="
+				
+				
+				   
+				  
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				   
+					
+				 
+			">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-database"></i>
+                        <span class="menu-text">基础数据</span>
+
+                        <b class="arrow fa fa-angle-down"></b>
+
+                    </a>
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+
+                        <li class="
+							
+						">
+                            <a href="../doc/actionManagement">
+                                <i class="menu-icon fa fa-caret-right"></i> 动作管理
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../doc/partsManagement">
+                                <i class="menu-icon fa fa-caret-right"></i> 参数部件
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../doc/partscategoriesManagement">
+                                <i class="menu-icon fa fa-caret-right"></i> 部件类型
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../doc/subclassManagement">
+                                <i class="menu-icon fa fa-caret-right"></i> 参数子类
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../doc/faultTypeManagement.action">
+                                <i class="menu-icon fa fa-caret-right"></i> 故障类型
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="
+							
+						">
+                            <a href="../alarm/alarmtypeManagement">
+                                <i class="menu-icon fa fa-caret-right"></i> 报警类型
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                    </ul>
+                </li>
+
+
+
+            </ul>
+            <!-- /.nav-list -->
+
+            <!-- #section:basics/sidebar.layout.minimize -->
+            <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+                <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+            </div>
+
+            <!-- /section:basics/sidebar.layout.minimize -->
+            <script type="text/javascript">
+                try {
+                    ace.settings.check('sidebar', 'collapsed')
+                } catch (e) {}
+            </script>
+        </div>
+
+        <!-- /section:basics/sidebar -->
+        <div class="main-content">
+            <!-- /section:basics/content.breadcrumbs -->
+            <div id="page-content" class="page-content no-padding">
+                <!-- Sidebar -->
+                <div id="allmap" class="responsive pull-left" style="width:100%;min-height:550px;height:100%; -moz-box-shadow: 2px 2px 1px #888888;box-shadow: 2px 2px 1px #888888;"></div>
+                <div id="div_sidebar" style="width:350px;height:100%;background-color: #f2f2f2;" class="pull-right">
+                    <nav id="sidebar-wrapper" class="sidebar responsive" style="background-color: #f2f2f2;" role="navigation">
+                        <div>
+                            <div class="widget-box no-margin">
+                                <div class="widget-header" style="-moz-box-shadow: 0px 2px 0px #888888;box-shadow: 0px 2px 0px #888888;">
+                                    <h4 class="widget-title lighter" style="color:#383939;font-family:Hiragino Sans GB;">综合信息</h4>
+                                    <div class="widget-toolbar no-border">
+                                    </div>
+                                </div>
+                                <div class="widget-body" style="background-color: #f2f2f2">
+                                    <div class="widget-main no-padding" style="height:105px;" id="">
+                                        <p class="alert text-primary" style="font-size: 16px;color:#0178bc;font-family:Hiragino Sans GB;">
+                                            <span>机器总数:&nbsp;<b id="totalNum"></b>台</span><br>
+                                            <span>运行机器:&nbsp;<b id="runNum"></b>台</span><br>
+                                            <span>服务区域:&nbsp;<b id="areaNum"></b>个</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding:1px;margin-top:-1px;">
+                            <div class="widget-box no-margin">
+                                <div class="widget-header" style="-moz-box-shadow: 0px 2px 0px #888888;box-shadow: 0px 2px 0px #888888;">
+                                    <h4 class="widget-title lighter" style="color:#383939;font-family:Hiragino Sans GB;">运行机器数</h4>
+
+                                </div>
+                                <div class="widget-body" style="background-color: #f2f2f2;padding-left:5px;">
+                                    <div class="pull-right" style="margin:15px;">
+                                        <a class="btn btn-xs btn-defult bigger btn-round btn_x" id="btn_day" onclick="getLineData('day');">
+												今日
+											</a>
+                                        <a class="btn btn-xs btn-defult bigger btn-round btn_x" id="btn_month" onclick="getLineData('month');">
+											        本月
+											</a>
+                                        <a class="btn btn-xs btn-defult bigger btn-round btn_x" id="btn_season" onclick="getLineData('season');">
+											        本季
+											</a>
+                                        <a class="btn btn-xs btn-defult bigger btn-round btn_x" id="btn_year" onclick="getLineData('year')">
+											        今年
+											</a>
+                                    </div>
+                                    <div style="clear:both;"></div>
+                                    <div class="widget-main">
+                                        <div style="height:250px;" id="line_chart">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding:1px;margin-top:15px;">
+                            <div class="widget-box no-margin">
+                                <div class="widget-header" style="-moz-box-shadow: 0px 2px 0px #888888;box-shadow: 0px 2px 0px #888888;">
+                                    <h4 class="widget-title lighter" style="color:#383939;font-family:Hiragino Sans GB;">机器类型占比</h4>
+                                </div>
+                                <div class="widget-body" style="background-color: #f2f2f2">
+                                    <div class="pull-right" style="margin:15px;">
+                                        <a class="btn btn-xs btn-defult bigger btn-round btn_px" id="btnp_day" onclick="getPieData('day');">
+												今日
+											</a>
+                                        <a class="btn btn-xs btn-defult bigger btn-round btn_px" id="btnp_month" onclick="getPieData('month');">
+											        本月
+											</a>
+                                        <a class="btn btn-xs btn-defult bigger btn-round btn_px" id="btnp_season" onclick="getPieData('season');">
+											        本季
+											</a>
+                                        <a class="btn btn-xs btn-defult bigger btn-round btn_px" id="btnp_year" onclick="getPieData('year')">
+											        今年
+											</a>
+                                    </div>
+                                    <div style="clear:both;"></div>
+                                    <div class="widget-main" style="height:250px;padding:1px;margin-left:20px;" id="pie_chart">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.main-container -->
+    </div>
+    <!-- basic scripts -->
+
+    <!--[if !IE]> -->
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='../assets/js/jquery.min.js'>" + "<" + "/script>");
+    </script>
+
+    <!-- <![endif]-->
+
+    <!--[if IE]>
+		<script type="text/javascript">
+		 window.jQuery || document.write("<script src='../assets/js/jquery1x.min.js'>"+"<"+"/script>");
+		</script>
+		<![endif]-->
+    <script type="text/javascript">
+        if ('ontouchstart' in document.documentElement) document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+    </script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+
+    <!-- page specific plugin scripts -->
+    <script src="../assets/js/jquery-ui.min.js"></script>
+    <script src="../assets/js/flot/jquery.flot.min.js"></script>
+    <script src="../assets/js/flot/jquery.flot.pie.min.js"></script>
+    <script src="../assets/js/flot/jquery.flot.crosshair.min.js"></script>
+    <script src="../assets/js/flot/jquery.flot.time_ch.min.js"></script>
+    <script src="../assets/js/flot/jquery.flot.selection.min.js"></script>
+    <script src="../assets/js/flot/jquery.flot.categories.min.js"></script>
+
+    <!-- ace scripts -->
+    <script src="../assets/js/ace-elements.min.js"></script>
+    <script src="../assets/js/ace.min.js"></script>
+
+    <!-- plug-in -->
+    <script src="../assets/js/bootbox.min.js"></script>
+    <script src="../assets/js/jquery.showLoading.min.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            initScreen();
+            showAllDevicesInMap();
+            getMainInfo();
+            getLineData('day')
+            getPieData('year');
+
+            setInterval(function() {
+                getMainInfo();
+                getLineData(curLineX)
+                getPieData(curPieX);
+            }, 60 * 1000);
+
+            window.onresize = function() {
+                location.reload();
+            }
+        });
+        var navOpen = false;
+        var isOpen = true;
+        var lineplot = null;
+        var $tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body');
+        var previousPoint = null;
+
+        var lineData = [];
+        var ticksDay = [
+            [0, "0时"],
+            [3, "3时"],
+            [6, "6时"],
+            [9, "9时"],
+            [12, "12时"],
+            [15, "15时"],
+            [18, "18时"],
+            [21, "21时"],
+            [24, "24时"]
+        ];
+        var ticksMonth = [
+            [0, "1日"],
+            [5, "6日"],
+            [10, "11日"],
+            [15, "16日"],
+            [20, "21日"],
+            [25, "26日"],
+            [30, "31日"]
+        ];
+
+        var curLineX = 'day';
+        var curPieX = 'year';
+        var cover = new Array();
+
+        function showAllDevicesInMap() {
+            $.post(
+                "../map/showAllDevicesInMap.action", {},
+                function(result) {
+
+                    var deviceList = result.obj[0];
+                    var areaList = result.obj[1];
+                    // 百度地图API功能
+
+                    //初始化地图
+                    map = new BMap.Map('allmap');
+                    var poi = new BMap.Point(115.12648, 29.362884);
+                    map.centerAndZoom(poi, 7);
+                    map.enableScrollWheelZoom();
+                    //地图小工具
+                    var top_left_control = new BMap.ScaleControl({
+                        anchor: BMAP_ANCHOR_TOP_LEFT
+                    }); // 左上角，添加比例尺
+                    var top_left_navigation = new BMap.NavigationControl(); //左上角，添加默认缩放平移控件
+                    var mapType = new BMap.MapTypeControl({
+                        mapTypes: [BMAP_NORMAL_MAP, BMAP_SATELLITE_MAP]
+                    });
+                    map.addControl(top_left_control);
+                    map.addControl(top_left_navigation);
+                    map.addControl(mapType);
+                    map.disableDoubleClickZoom();
+
+                    map.addEventListener("zoomend", function() {
+                        if (map.getZoom() > 10) {
+                            hideCover();
+                        } else {
+                            showCover();
+                        }
+                    });
+
+                    map.setMapStyle({
+                        styleJson: [{
+                            "featureType": "highway",
+                            "elementType": "all",
+                            "stylers": {
+                                "visibility": "off"
+                            }
+                        }, {
+                            "featureType": "railway",
+                            "elementType": "all",
+                            "stylers": {
+                                "visibility": "off"
+                            }
+                        }, {
+                            "featureType": "subway",
+                            "elementType": "all",
+                            "stylers": {
+                                "visibility": "off"
+                            }
+                        }, {
+                            "featureType": "water",
+                            "elementType": "all",
+                            "stylers": {
+                                "color": "#bcdfff"
+                            }
+                        }]
+                    });
+
+                    var markers = new Array();;
+                    var marker;
+                    var devices;
+                    var myIcon;
+
+                    var myStyles = [{
+                        url: '../assets/images/map/m0.png',
+                        size: new BMap.Size(53, 53),
+                        opt_anchor: [26, 26],
+                        textColor: '#000000',
+                        opt_textSize: 10
+                    }, {
+                        url: '../assets/images/map/m1.png',
+                        size: new BMap.Size(53, 53),
+                        opt_anchor: [26, 26],
+                        textColor: '#000000',
+                        opt_textSize: 10
+                    }, {
+                        url: '../assets/images/map/m2.png',
+                        size: new BMap.Size(120, 120),
+                        opt_anchor: [26, 26],
+                        textColor: '#000000',
+                        opt_textSize: 10
+                    }, {
+                        url: '../assets/images/map/m3.png',
+                        size: new BMap.Size(53, 53),
+                        opt_anchor: [26, 26],
+                        textColor: '#000000',
+                        opt_textSize: 10
+                    }, {
+                        url: '../assets/images/map/m4.png',
+                        size: new BMap.Size(53, 53),
+                        opt_anchor: [26, 26],
+                        textColor: '#000000',
+                        opt_textSize: 10
+                    }, ];
+
+                    //设备标点
+                    for (var j = 0; j < deviceList.length; j++) {
+                        device = deviceList[j];
+                        myIcon = new BMap.Icon("../assets/images/map/marker0.png", new BMap.Size(24, 25), {
+                            anchor: new BMap.Size(10, 25),
+                            infoWindowAnchor: new BMap.Size(18, -2)
+                        });
+                        marker = new BMap.Marker(new BMap.Point(device.x, device.y), {
+                            icon: myIcon
+                        });
+                        //	marker = new BMap.Marker(new BMap.Point(devices[i].x,devices[i].y));
+                        marker.deviceid = device.id;
+                        marker.devicesn = device.sn;
+                        marker.devicename = device.name;
+                        marker.workstate = device.workstate;
+                        marker.deviceMid = device.monitorid;
+                        addMarkerClickHandler(marker);
+                        markers.push(marker);
+                    }
+                    var markerClusterer = new BMapLib.MarkerClusterer(map, {
+                        markers: markers
+                    });
+                    markerClusterer.setMaxZoom(19);
+                    markerClusterer.setStyles(new Array(myStyles[0]));
+
+                    addMarkerClustererClickHandler(markerClusterer);
+
+
+                    //区域划分
+                    var city;
+                    for (var i = 0; i < areaList.length; i++) {
+                        fillArea(areaList[i], myColors[i]);
+                    }
+                }
+            );
+        }
+
+        var myColors = ["#FFF68F", "#0000FF", "#FF3030", "#EE00EE", "#4A4A4A"];
+
+        function fillArea(area, color) {
+            var areaName = area.name;
+            var cityStr = area.note;
+            if (cityStr != null) {
+                var citys = cityStr.split(",");
+                for (var j = 0; j < citys.length; j++) {
+                    var bdary = new BMap.Boundary();
+                    var cityname = citys[j];
+                    bdary.get(cityname, function(rs) {
+                        var areaName = area.name;
+                        var acolor = color;
+                        for (var k = 0; k < rs.boundaries.length; k++) {
+                            var ply = new BMap.Polygon(rs.boundaries[k], {
+                                strokeWeight: 2,
+                                fillColor: acolor,
+                                strokeWeight: "0px",
+                                fillOpacity: 0.5
+                            }); //建立多边形覆盖物
+                            map.addOverlay(ply); //添加覆盖物
+                            cover.push(ply);
+                            ply.addEventListener("click", function(e) {
+                                alert(areaName);
+                            });
+                        }
+                    });
+                }
+            }
+
+        }
+
+        function hideCover() {
+            if (cover.length > 0) {
+                for (var i = 0; i < cover.length; i++) {
+                    cover[i].hide();
+                }
+            }
+        }
+
+        function showCover() {
+            if (cover.length > 0) {
+                for (var i = 0; i < cover.length; i++) {
+                    cover[i].show();
+                }
+            }
+        }
+
+        function addMarkerClickHandler(marker) {
+            marker.addEventListener("click", function(e) {
+                $("#allmap").showLoading();
+                //异步取数据
+                $.post(
+                    "../map/showDevicesInfo.action", {
+                        deviceMid: marker.deviceMid
+                    },
+                    function(infoWindowDataInMap) {
+                        if (infoWindowDataInMap.indexOf("登录") > -1) {
+                            location.reload(true);
+                            return;
+                        }
+                        //		$("#div_content").html(companyData);
+                        //		var content = $("#div_content").html();
+                        openInfo(infoWindowDataInMap, marker);
+                        $("#allmap").hideLoading();
+                    }
+                );
+            });
+        }
+
+        function openInfo(content, marker) {
+
+            //	var p = e.target;
+            //	var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+            var infoWindow = new BMap.InfoWindow(content); // 创建信息窗口对象 
+            marker.openInfoWindow(infoWindow);
+            //	map.openInfoWindow(infoWindow,point); //开启信息窗口
+
+        }
+
+        function addMarkerClustererClickHandler(markerClusterer) {
+            markerClusterer.addClickListener(function(event, cluster) {
+                var currentMarkers = cluster.getClusterMarkers();
+                var currentMarkerPoint = cluster.getClusterPoint();
+                var htmlContent = "";
+
+                htmlContent = htmlContent + "<div class='pull-left' style='margin-top:15px;width:420px;overflow-y:auto;max-height:200px'>";
+                htmlContent = htmlContent + "<table class='table table-condensed' style='width:400px;' rules='rows'>";
+                htmlContent = htmlContent + "<tbody>";
+                htmlContent = htmlContent + "<tr>";
+                htmlContent = htmlContent + "<th style='width:100px;'>编号</th>";
+                htmlContent = htmlContent + "<th style='width:100px;'>名称</th>";
+                htmlContent = htmlContent + "<th style='width:100px;'>最近状态</th>";
+                htmlContent = htmlContent + "<th style='width:100px;'></th>";
+                htmlContent = htmlContent + "</tr>";
+                for (var i = 0; i < currentMarkers.length; i++) {
+
+                    htmlContent = htmlContent + "<tr>";
+                    htmlContent = htmlContent + "<td style='width:100px;'>" + currentMarkers[i].devicesn + "</td>";
+                    htmlContent = htmlContent + "<td style='width:100px;'>" + currentMarkers[i].devicename + "</td>";
+                    htmlContent = htmlContent + "<td style='width:100px;'>" + currentMarkers[i].workstate + "</td>";
+                    htmlContent = htmlContent + "<td style='width:100px;'>";
+                    //htmlContent = htmlContent + "<input type='button' class='btn btn-sm btn-primary' value='查看详情' style='width:100px;hight:25px;'/>";
+                    htmlContent = htmlContent + "<a onclick='showMoreInfo(" + currentMarkers[i].deviceMid + "," + currentMarkerPoint.lng + "," + currentMarkerPoint.lat + ")'>查看详情</a>";
+                    htmlContent = htmlContent + "</td>";
+                    htmlContent = htmlContent + "</tr>";
+                }
+
+                htmlContent = htmlContent + "</tbody>";
+                htmlContent = htmlContent + "</table>";
+                htmlContent = htmlContent + "</div>";
+                openInfoByPoint(htmlContent, currentMarkerPoint);
+            }, false);
+        }
+
+        function showMoreInfo(deviceMid, x, y) {
+            $("#allmap").showLoading();
+            //异步取数据
+            $.post(
+                "../map/showDevicesInfo.action", {
+                    deviceMid: deviceMid
+                },
+                function(infoWindowDataInMap) {
+                    if (infoWindowDataInMap.indexOf("登录") > -1) {
+                        location.reload(true);
+                        return;
+                    }
+                    //		$("#div_content").html(companyData);
+                    //		var content = $("#div_content").html();
+                    openInfoByPoint(infoWindowDataInMap, new BMap.Point(x, y));
+                    $("#allmap").hideLoading();
+                }
+            );
+        }
+
+        function openInfoByPoint(content, point) {
+
+            //	var p = e.target;
+            //	var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+            var infoWindow = new BMap.InfoWindow(content); // 创建信息窗口对象 
+            //	marker.openInfoWindow(infoWindow);
+            map.openInfoWindow(infoWindow, point); //开启信息窗口
+
+        }
+
+        //异步获取综合信息
+        function getMainInfo() {
+            $.get("../screen/screenMainInfo", {}, function(json) {
+                if (json.code == 200) {
+                    var info = json.obj
+                    $("#totalNum").html(info.totalNum);
+                    $("#runNum").html(info.runNum);
+                    $("#areaNum").html(info.areaNum);
+                }
+            }, "json");
+        }
+
+        //异步获取在线机器数 线图数据
+        function getLineData(str) {
+            curLineX = str;
+            $(".btn_x").attr("class", "btn btn-xs btn-defult bigger btn-round btn_x");
+            $("#btn_" + str).attr("class", "btn btn-xs btn-info bigger btn-round btn_x");
+            $.post("../screen/lineChart", {
+                "tag": str
+            }, function(json) {
+                if (json.code == 200) {
+                    lineData = json.obj;
+                    if (str == "day") {
+                        drawLine(lineData, ticksDay);
+                    } else if (str == "month") {
+                        drawLine(lineData, ticksMonth);
+                    } else {
+                        drawLine(lineData, null);
+                    }
+
+                }
+            }, "json");
+        }
+
+        function drawLine(data, ts) {
+            lineplot = $.plot("#line_chart", [{
+                data: data,
+                color: 1
+            }], {
+                series: {
+                    lines: {
+                        show: true,
+                        fill: true
+                    },
+                    points: {
+                        show: true
+                    }
+                },
+                xaxis: {
+                    mode: "categories",
+                    tickLength: 1,
+                    ticks: ts,
+                    labelWidth: 1,
+                    max: data.length - 0.9
+                },
+                yaxis: {
+                    min: 0
+                },
+                crosshair: {
+                    mode: "x",
+                    color: "#009ACD"
+                },
+                selection: {
+                    mode: "x"
+                },
+                grid: {
+                    borderWidth: 0.2,
+                    hoverable: true,
+                    autoHighlight: false
+                }
+            });
+
+            $("#line_chart").on('plothover', function(event, pos, item) {
+                if (item) {
+                    //var x = item.datapoint[0].toFixed(2);
+                    var y = item.datapoint[1];
+                    var tip = y;
+                    $tooltip.show().children(0).text(tip);
+                    $tooltip.css({
+                        top: pos.pageY + 10,
+                        left: pos.pageX + 10
+                    });
+                } else {
+                    $tooltip.hide();
+                }
+            });
+            $("#line_chart").bind("plotselected", function(event, ranges) {
+                // do the zooming
+                $.each(lineplot.getXAxes(), function(_, axis) {
+                    var opts = axis.options;
+                    opts.min = ranges.xaxis.from;
+                    opts.max = ranges.xaxis.to;
+                });
+                lineplot.setupGrid();
+                lineplot.draw();
+                lineplot.clearSelection();
+            });
+        }
+
+        //绘Pie图
+        function drawPieChart(placeholder, data, position) {
+            $.plot(placeholder, data, {
+                series: {
+                    pie: {
+                        innerRadius: 0.5,
+                        show: true,
+                        highlight: {
+                            opacity: 0.25
+                        },
+                        stroke: {
+                            color: '#fff',
+                            width: 2
+                        },
+                        startAngle: 2,
+                        radius: 0.7,
+                        label: {
+                            show: true,
+                            radius: 0.9,
+                            formatter: function(label, series) {
+                                return '<div style="font-size:8pt;text-align:center;padding:2px;color:' + series.color + '">' + label + '<br/>' + series.data[0][1] + '</div>';
+                            }
+                        }
+                    }
+                },
+                legend: {
+                    show: true,
+                    position: position || "ne",
+                    labelBoxBorderColor: null,
+                    backgroundOpacity: 0,
+                    margin: [0, 0]
+                },
+                grid: {
+                    hoverable: true,
+                    clickable: true
+                }
+
+            })
+        }
+
+        function getPieData(tag) {
+            curPieX = tag;
+            $(".btn_px").attr("class", "btn btn-xs btn-defult bigger btn-round btn_px");
+            $("#btnp_" + tag).attr("class", "btn btn-xs btn-info bigger btn-round btn_px");
+
+            $.post("../screen/pieChart", {
+                "tag": tag
+            }, function(json) {
+                if (JSON.stringify(json).indexOf("请输入用户名密码") > -1) {
+                    location.reload(true);
+                    return;
+                }
+                if (json.code == 200) {
+                    var piecategory = $('#pie_chart').css({
+                        'width': '90%',
+                        'min-height': '200px'
+                    });
+                    var cdata = json.obj;
+                    drawPieChart(piecategory, cdata, "nw");
+                    piecategory.data('chart', cdata);
+                    piecategory.data('draw', drawPieChart);
+
+                    piecategory.on('plothover', function(event, pos, item) {
+                        if (item) {
+                            if (previousPoint != item.seriesIndex) {
+                                previousPoint = item.seriesIndex;
+                                var tip = item.series['label'] + " : " + item.series.data[0][1];
+                                $tooltip.show().children(0).text(tip);
+                            }
+                            $tooltip.css({
+                                top: pos.pageY + 10,
+                                left: pos.pageX + 10
+                            });
+                        } else {
+                            $tooltip.hide();
+                            previousPoint = null;
+                        }
+                    });
+                } else {
+                    $('#pie_chart').html('<span style="color:#383939;font-size:18px;font-family:Hiragino Sans GB;" >' + json.msg + '</span>');
+                }
+
+
+            });
+        }
+
+        function initScreen() {
+
+            var contentHeight = window.innerHeight - 45;
+            var sidebarHeight = $("#div_sidebar").height();
+            if (contentHeight < sidebarHeight) {
+                $("#allmap").height(sidebarHeight);
+                $("body").attr("style", "overflow:auto;");
+            } else {
+                $("#allmap").height(contentHeight);
+                $("body").attr("style", "overflow:hidden;");
+            }
+            var contentWidth = $("#page-content").width();
+            var sidebarWidth = $("#div_sidebar").width();
+            $("#allmap").width(contentWidth - sidebarWidth);
+
+
+            $('#sidebar-collapse').click(function() {
+                if (navOpen) {
+                    var mapWidth = $("#allmap").width();
+                    $("#allmap").width(mapWidth + 147);
+                    navOpen = false;
+                } else {
+                    var mapWidth = $("#allmap").width();
+                    $("#allmap").width(mapWidth - 147);
+                    navOpen = true;
+                }
+            });
+            var navWidth = $("#sidebar").width();
+            if (navWidth > 100) {
+                navOpen = true;
+                $('#sidebar-collapse').click();
+            }
+        }
+    </script>
+</body>
+
+</html>

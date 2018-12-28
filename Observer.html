@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // export class events {
+        //     constructor() {
+        //         this.handles = {};
+        //     }
+
+        //     emit() {
+        //         var type = Array.prototype.shift.call(arguments);
+        //         if (!this.handles[type]) {
+        //             return false;
+        //         }
+        //         for (var i = 0; i < this.handles[type].length; i++) {
+        //             var handle = this.handles[type][i];
+        //             handle.apply(this, arguments);
+        //         }
+        //     }
+        //     on(type, handle) {
+        //         if (!this.handles[type]) {
+        //             this.handles[type] = [];
+        //         }
+        //         this.handles[type].push(handle); //多重委托
+        //     }
+        //     off() {
+
+        //     }
+        // }
+        class Observable {
+
+            constructor() {
+                this.observers = [];
+            }
+
+            publish() {
+                //console.log(this.observers);
+                for (let observer of this.observers) {
+                    try {
+                        observer.next.apply(this, arguments);
+                    } catch (err) {
+                        observer.err(err);
+                    }                    //console.log(observer);
+                }
+            }
+            subscribe(next, error, complete) {
+                console.log(typeof next);
+                if (typeof next == "function") {
+                    let observer = {
+                        next: next,
+                        error: error || this.error,
+                        complete: complete || this.complete
+                    }
+                    this.observers.push(observer);
+                } else {
+                    this.observers.push(observer);
+                }
+            }
+            error() {
+                console.log("错误");
+            }
+
+            complete() {
+                console.log("完成");
+            }
+        }
+
+        let myObservable = new Observable();
+        myObservable.subscribe(x => {
+            console.log(x);
+        })
+        let observer = {
+            next: x => {
+                console.log("我传入的是观察者对象", x);
+            }
+        }
+        myObservable.subscribe(observer);
+        myObservable.publish("我发布了方法!");
+    </script>
+</body>
+
+</html>

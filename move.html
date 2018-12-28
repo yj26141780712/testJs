@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            background: rgb(76, 132, 223);
+        }
+        
+        .main {
+            position: absolute;
+            border: 2px solid #cccccc;
+        }
+        
+        span {
+            position: absolute;
+            display: block;
+            width: 10px;
+            height: 10px;
+            border: 1px solid #ffffff;
+            z-index: 10;
+        }
+        
+        .box-left-top {
+            top: -10px;
+            left: -10px;
+            cursor: nw-resize;
+        }
+        
+        .box-left-bottom {
+            bottom: -10px;
+            left: -10px;
+            cursor: sw-resize;
+        }
+        
+        .box-right-top {
+            top: -10px;
+            right: -10px;
+            cursor: ne-resize;
+        }
+        
+        .box-right-bottom {
+            bottom: -10px;
+            right: -10px;
+            cursor: se-resize;
+        }
+        
+        .box-left-middle {
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: w-resize;
+        }
+        
+        .box-right-middle {
+            right: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: e-resize;
+        }
+        
+        .box-top-middle {
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: n-resize;
+        }
+        
+        .box-bottom-middle {
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: s-resize;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main" class="main" style="left: 20px;top: 20px;height: 100px;width: 200px;">
+        <span class="box-left-top">        
+                </span>
+        <span class="box-left-bottom">        
+                </span>
+        <span class="box-right-top">        
+                </span>
+        <span id="rb" class="box-right-bottom">        
+                </span>
+        <span class="box-left-middle">
+                </span>
+        <span class="box-right-middle">
+                </span>
+        <span class="box-top-middle">
+                </span>
+        <span class="box-bottom-middle">
+                </span>
+    </div>
+    <script>
+        let rb = document.getElementById('rb');
+        let main = document.getElementById('main');
+        console.log(rb);
+        let x = 0;
+        let y = 0;
+        let h = 0;
+        let w = 0;
+        let down = false;
+        rb.addEventListener('mousedown', function(e) {
+            var oEvent = e || window.event;
+            console.log(e);
+            x = e.clientX;
+            y = e.clientY;
+            h = getCss(main, 'height');
+            w = getCss(main, 'width');
+            // console.log(x);
+            // console.log(y);
+            console.log(h);
+            console.log(w);
+            down = true;
+            oEvent.preventDefault();
+        });
+        document.addEventListener('mousemove', function(e) {
+            if (down) {
+                let left = e.clientX - x;
+                let top = e.clientY - y;
+                console.log(parseInt(h));
+                main.style.height = (parseInt(h) + top) + 'px';
+                main.style.width = (parseInt(w) + left) + 'px';
+            }
+        });
+        document.addEventListener('mouseup', function(e) {
+            var oEvent = e || window.event;
+            console.log('鼠标松开!');
+            down = false;
+            oEvent.preventDefault();
+        });
+
+        function getCss(o, key) {
+            return o.currentStyle ? o.currentStyle[key] : document.defaultView.getComputedStyle(o, false)[key];
+        }
+
+        function setAssign(obj, option, value) {
+
+            switch (option) {
+                case 'width':
+                    obj.style.width = value;
+                    break;
+                case 'height':
+                    obj.style.height = value;
+                    break;
+                case 'top':
+                    obj.style.top = value;
+                    break;
+                case 'left':
+                    obj.style.left = value;
+                    break;
+                case 'position':
+                    obj.style.position = value;
+                    break;
+                case 'cursor':
+                    obj.style.cursor = value;
+            }
+        }
+    </script>
+</body>
+
+</html>
