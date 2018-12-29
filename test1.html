@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="js/underscore.js"></script>
+    <script>
+        // console.log(_);
+        let obj = [1, 2, 3];
+        // let obj = {
+        //     name: 'yangjie',
+        //     age: 19,
+        //     address: 'NB'
+        // };
+        // let a = _(obj).find(function(num) {
+        //     console.log(num);
+        //     return num % 2 == 0;
+        // });
+        // console.log(a);
+        var reg = new RegExp('(123)|(456)', 'ig');
+        console.log(reg);
+        var text = '123456789123';
+        // let a = text.replace(reg, function(match, offset, text) {
+        //     console.log(arguments)
+        //         // console.log(match); //匹配子表达式
+        //         // console.log(offset); //
+        //         // console.log(text); //
+        //     return 789;
+        // });
+        // console.log(a);
+        // let b = text.match('123'); //
+        // console.log(b);
+        // let c = text.match(/(123)|(456)/);
+        // console.log(c);
+        var str = 'For more information, see Chapter 3.4.5.1';
+        var re1 = /see (Chapter \d+(\.\d)*)/i;
+        console.log(re1);
+        let reg2 = String.raw `see (Chapter \d+(\.\d)*)`;
+        var re2 = new RegExp(reg2, 'i');
+        console.log(re2);
+        console.log(re1.test(str));
+        console.log(re2.test(str));
+    </script>
+</body>
+
+</html>

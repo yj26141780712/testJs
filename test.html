@@ -10,9 +10,23 @@
 
 <body>
     <h2>测试页面</h2>
+    <!-- <script src="js/underscore.js"></script> -->
     <script src="Underscore.js"></script>
     <script>
-        console.log(_('2'));
+        let obj = [1, 2, 3];
+        // let obj = {
+        //         name: 'yangjie',
+        //         age: 12,
+        //         address: 'china'
+        //     }
+        // let a = _.chain(obj).reduce(function() {
+        //     console.log(arguments);
+        // });
+        let a = _.chain(obj).reduce(function(memo, value) {
+            console.log(memo);
+            return memo + value
+        });
+        console.log(a);
     </script>
 </body>
 
